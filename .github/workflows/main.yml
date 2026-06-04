@@ -10,6 +10,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    # This sets the folder for ALL steps below automatically, avoiding line errors!
+    defaults:
+      run:
+        working-directory: "Pacman-Game Java"
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -21,15 +26,12 @@ jobs:
           distribution: 'temurin'
 
       - name: Create Manifest File
-        working-directory: "Pacman-Game Java"
         run: echo "Main-Class: App" > manifest.txt
 
       - name: Compile Application
-        working-directory: "Pacman-Game Java"
         run: javac App.java PacMan.java
 
       - name: Package Executable JAR
-        working-directory: "Pacman-Game Java"
         run: jar cfm PacmanGame.jar manifest.txt *.class *.png
 
       - name: Upload Finished Build
