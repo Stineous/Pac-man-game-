@@ -21,24 +21,19 @@ jobs:
           distribution: 'temurin'
 
       - name: Create Manifest File
+        working-directory: "Pacman-Game Java"
         run: echo "Main-Class: App" > manifest.txt
 
       - name: Compile Application
-        run: |
-          if [ -d "Pacman-Game Java" ]; then
-            cd "Pacman-Game Java"
-          fi
-          javac App.java PacMan.java
+        working-directory: "Pacman-Game Java"
+        run: javac App.java PacMan.java
 
       - name: Package Executable JAR
-        run: |
-          if [ -d "Pacman-Game Java" ]; then
-            cd "Pacman-Game Java"
-          fi
-          jar cfm ../PacmanGame.jar ../manifest.txt *.class *.png
+        working-directory: "Pacman-Game Java"
+        run: jar cfm PacmanGame.jar manifest.txt *.class *.png
 
       - name: Upload Finished Build
         uses: actions/upload-artifact@v4
         with:
           name: Pacman-Game-Build
-          path: PacmanGame.jar
+          path: "Pacman-Game Java/PacmanGame.jar"
